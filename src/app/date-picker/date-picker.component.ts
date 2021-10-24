@@ -142,7 +142,6 @@ export class DatePickerComponent implements OnInit, OnChanges {
     }
     this.updateLastWeek()
     this.weeks = weeks;
-    this.weeks = weeks;
   }
 
   fillDates(currentMoment: moment.Moment): CalendarDate[] {
