@@ -15,7 +15,10 @@ export class DatePickerComponent implements OnInit, OnChanges {
   dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   weeks: CalendarDate[][] = [];
   sortedDates: CalendarDate[] = [];
-
+  calenderGenerated:boolean = false
+  lastWeek:number
+  today:CalendarDate
+  selectedDate:CalendarDate
   @Input() selectedDates: CalendarDate[] = [];
   @Output() SelectDate = new EventEmitter<CalendarDate>();
 
@@ -55,6 +58,9 @@ export class DatePickerComponent implements OnInit, OnChanges {
 
   selectDate(date: CalendarDate): void {
     //console.log('selectDate');
+    this.selectedDate.selected =false
+    date.selected=true
+    this.selectedDate =date
     this.SelectDate.emit(date);
   }
 
@@ -95,6 +101,32 @@ export class DatePickerComponent implements OnInit, OnChanges {
     this.generateCalendar();
   }
 
+  notSelectedMonth(){
+    console.log("not")
+    return moment(this.currentDate).startOf('month').day();
+  }
+
+  notLastSelectedMonth(){
+    return moment(this.currentDate).endOf('month').day();
+  }
+
+  updateLastWeek(){
+    console.log("update")
+    42 - this.notSelectedMonth() - moment(this.currentDate).endOf("month").date() >= 7 ? this.lastWeek=4 : this.lastWeek =5;
+  }
+
+  currentYear(){
+
+  }
+
+  currentMonth(){
+
+  }
+
+  getCurrentDay():number{
+    return moment().get("date")
+  }
+
   // generate the calendar grid
   generateCalendar(): void {
     //console.log('generateCalendar');
@@ -103,6 +135,13 @@ export class DatePickerComponent implements OnInit, OnChanges {
     while (dates.length > 0) {
       weeks.push(dates.splice(0, 7));
     }
+    if(moment().isSame(moment(this.currentDate), 'month')){
+      weeks[Math.trunc((this.getCurrentDay() + this.notSelectedMonth()-1)/7)][((this.getCurrentDay() + this.notSelectedMonth()-1)%7)].today=true
+      weeks[Math.trunc((this.getCurrentDay() + this.notSelectedMonth()-1)/7)][((this.getCurrentDay() + this.notSelectedMonth()-1)%7)].selected=true
+      this.selectedDate = weeks[Math.trunc((this.getCurrentDay() + this.notSelectedMonth()-1)/7)][((this.getCurrentDay() + this.notSelectedMonth()-1)%7)]
+    }
+    this.updateLastWeek()
+    this.weeks = weeks;
     this.weeks = weeks;
   }
 
