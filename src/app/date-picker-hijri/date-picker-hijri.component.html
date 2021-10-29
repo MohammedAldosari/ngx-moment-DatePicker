@@ -17,16 +17,16 @@
         {{ name }}
       </div>
     </div>
-    <div *ngIf="calenderGenerated" class="weeks">
+    <div class="weeks">
       <div  class="week">
         <div class="week-date disabled" *ngFor="let day of weeks[0].slice(0,notSelectedMonth())">
-          <span class="date-text">{{ day.mDate.date() }}</span>
+          <span class="date-text">{{ day.mDate.iDate() }}</span>
         </div>
         <ng-container *ngFor="let day of weeks[0].slice(notSelectedMonth())">
                <div class="week-date enabled"
                (click)="selectDate(day)"
                [ngClass]="{ today: day.today, selected: day.selected }">
-               <span class="date-text">{{ day.mDate.date() }}</span>
+               <span class="date-text">{{ day.mDate.iDate() }}</span>
                </div>
         </ng-container>
       </div>
@@ -37,7 +37,7 @@
                <div class="week-date enabled"
                (click)="selectDate(day)"
                [ngClass]="{ today: day.today, selected: day.selected }">
-               <span class="date-text">{{ day.mDate.date() }}</span>
+               <span class="date-text">{{ day.mDate.iDate() }}</span>
                </div>
         </ng-container>
       </div>
@@ -48,18 +48,18 @@
           <div class="week-date enabled"
           (click)="selectDate(day)"
           [ngClass]="{ today: day.today, selected: day.selected }">
-          <span class="date-text">{{ day.mDate.date() }}</span>
+          <span class="date-text">{{ day.mDate.iDate() }}</span>
         </div>
       </ng-container>
       <div class="week-date disabled" *ngFor="let day of weeks[lastWeek].slice(notLastSelectedMonth()+1)">
-        <span class="date-text">{{ day.mDate.date() }}</span>
+        <span class="date-text">{{ day.mDate.iDate() }}</span>
       </div>
       </div>
     </div>
     <div *ngIf="lastWeek ==4" class="weeks">
         <div  class="week">
           <div class="week-date disabled" *ngFor="let day of weeks[5]">
-            <span class="date-text">{{ day.mDate.date() }}</span>
+            <span class="date-text">{{ day.mDate.iDate() }}</span>
           </div>
         </div>
     </div>

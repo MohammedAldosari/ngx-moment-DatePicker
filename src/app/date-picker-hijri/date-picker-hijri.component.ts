@@ -10,8 +10,8 @@ import * as _ from 'lodash';
 })
 export class DatePickerHijriComponent implements OnInit , AfterViewInit{
 
-  currentDate = moment();
-  dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  currentDate = moment().locale('ar-SA');
+  dayNames = ['ا', 'أ', 'ث', 'ر', 'خ', 'ج', 'س'];
   weeks: CalendarDate[][] = [];
   sortedDates: CalendarDate[] = [];
   daysOutSideVisibleMonth:number=0
@@ -24,7 +24,7 @@ export class DatePickerHijriComponent implements OnInit , AfterViewInit{
   @Output() SelectDate = new EventEmitter<CalendarDate>();
 
   constructor() {
-
+    console.log(this.currentDate)
   }
 
   ngOnInit(): void {
@@ -124,21 +124,21 @@ export class DatePickerHijriComponent implements OnInit , AfterViewInit{
   }
 
   getCurrentDay():number{
-    return moment().get("date")
+    return moment().iDate()
   }
 
   notSelectedMonth(){
     console.log("not")
-    return moment(this.currentDate).startOf('month').day();
+    return moment(this.currentDate).startOf('iMonth').day();
   }
 
   notLastSelectedMonth(){
-    return moment(this.currentDate).endOf('month').day();
+    return moment(this.currentDate).endOf('iMonth').day();
   }
 
   updateLastWeek(){
     console.log("update")
-    42 - this.notSelectedMonth() - moment(this.currentDate).endOf("month").date() >= 7 ? this.lastWeek=4 : this.lastWeek =5;
+    42 - this.notSelectedMonth() - moment(this.currentDate).endOf("iMonth").iDate() >= 7 ? this.lastWeek=4 : this.lastWeek =5;
   }
 
   // generate the calendar grid
@@ -156,13 +156,12 @@ export class DatePickerHijriComponent implements OnInit , AfterViewInit{
     }
     this.updateLastWeek()
     this.weeks = weeks;
-    this.calenderGenerated=true
   }
 
   fillDates(currentMoment: moment.Moment): CalendarDate[] {
     console.log('fillDates');
     const firstOfMonth = this.notSelectedMonth()
-    const firstDayOfGrid = moment(currentMoment).startOf('month').subtract(firstOfMonth, 'days');
+    const firstDayOfGrid = moment(currentMoment).startOf('iMonth').subtract(firstOfMonth, 'days');
     const start = firstDayOfGrid.date();
     return _.range(start, start + 42)
       .map((date: number): CalendarDate => {

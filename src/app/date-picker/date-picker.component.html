@@ -17,7 +17,7 @@
         {{ name }}
       </div>
     </div>
-    <div *ngIf="calenderGenerated" class="weeks">
+    <div class="weeks">
       <div  class="week">
         <div class="week-date disabled" *ngFor="let day of weeks[0].slice(0,notSelectedMonth())">
           <span class="date-text">{{ day.mDate.date() }}</span>
